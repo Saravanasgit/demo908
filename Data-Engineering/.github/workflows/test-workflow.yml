@@ -1,0 +1,18 @@
+name: Use Source Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: "Target repo name"
+        required: true
+      org_name:
+        description: "Org or user name"
+        required: true
+
+jobs:
+  call-template:
+    uses: Saravanasgit/cicd-templates/.github/workflows/template-workflow.yml@develop
+    with:
+      repo_name: ${{ github.event.inputs.repo_name }}
+      org_name: ${{ github.event.inputs.org_name }}
