@@ -1,14 +1,18 @@
-name: Call a reusable workflow
+name: Use Source Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      repo_name:
+        description: "Target repo name"
+        required: true
+      org_name:
+        description: "Org or user name"
+        required: true
+
 jobs:
-  - name: Trigger source workflow
-    env:
-    GH_PAT: ${{ secrets.token }}
-    run: |
-      curl -X POST \
-      -H "Accept: application/vnd.github+json" \
-      -H "Authorization: token $GH_PAT" \
-      https://api.github.com/repos/Saravanasgit/cicd-templates/actions/workflows/template-workflow.yml/dispatches \
-      -d '{"ref":"develop","inputs":{"repo_name":"target-repo","org_name":"my-org"}}'
+  call-template:
+    uses: Saravanasgit/cicd-templates/.github/workflows/template-workflow.yml@develop
+    with:
+      repo_name: ${{ github.event.inputs.repo_name }}
+      org_name: ${{ github.event.inputs.org_name }}
