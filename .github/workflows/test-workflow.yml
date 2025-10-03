@@ -3,12 +3,12 @@ name: Call a reusable workflow
 on:
   workflow_dispatch:
 jobs:
-  call-workflow-passing-data:
-    permissions:
-      contents: read
-      pull-requests: write
-    uses: Saravanasgit/cicd-templates/.github/workflows/template-workflow.yml@develop
-    with:
-      config-path: .github/labeler.yml
-    secrets:
-      token: ${{ secrets.token }}
+  - name: Trigger source workflow
+    env:
+    GH_PAT: ${{ secrets.token }}
+    run: |
+      curl -X POST \
+      -H "Accept: application/vnd.github+json" \
+      -H "Authorization: token $GH_PAT" \
+      https://api.github.com/repos/Saravanasgit/cicd-templates/actions/workflows/template-workflow.yml/dispatches \
+      -d '{"ref":"develop","inputs":{"repo_name":"target-repo","org_name":"my-org"}}'
