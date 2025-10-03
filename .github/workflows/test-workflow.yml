@@ -6,14 +6,11 @@ on:
       - main
 
 jobs:
-  call-workflow:
-    uses: octo-org/example-repo/.github/workflows/workflow-A.yml@v1
-
   call-workflow-passing-data:
     permissions:
       contents: read
       pull-requests: write
-    uses: octo-org/example-repo/.github/workflows/workflow-B.yml@main
+    uses: Saravanasgit/cicd-templates/.github/workflows/template-workflow.yml@develop
     with:
       config-path: .github/labeler.yml
     secrets:
