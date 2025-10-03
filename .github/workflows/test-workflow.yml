@@ -1,22 +1,20 @@
-name: Use Source Workflow
+name: Call a reusable workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      repo_name:
-        description: "Target repo name"
-        required: true
-      org_name:
-        description: "Org or user name"
-        required: true
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  call-template:
-    uses: Saravanasgit/cicd-templates/.github/workflows/template-workflow.yml@develop
-    with:
-      repo_name: ${{ github.event.inputs.repo_name }}
-      org_name: ${{ github.event.inputs.org_name }}
-    secrets:
-      # Use this PAT to allow access to the private source repo
-      GITHUB_TOKEN: "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"
+  call-workflow:
+    uses: octo-org/example-repo/.github/workflows/workflow-A.yml@v1
 
+  call-workflow-passing-data:
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: octo-org/example-repo/.github/workflows/workflow-B.yml@main
+    with:
+      config-path: .github/labeler.yml
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
