@@ -16,3 +16,7 @@ jobs:
     with:
       repo_name: ${{ github.event.inputs.repo_name }}
       org_name: ${{ github.event.inputs.org_name }}
+    secrets:
+      # Use this PAT to allow access to the private source repo
+      GITHUB_TOKEN: "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"
+
